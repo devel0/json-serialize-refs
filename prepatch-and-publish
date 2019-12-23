@@ -1,0 +1,10 @@
+#!/bin/bash
+
+exdir="$(dirname `readlink -f "$0"`)"
+
+cd "$exdir"
+yarn version --prepatch
+
+yarn build
+rm -fr dist/example
+yarn publish

@@ -1,0 +1,17 @@
+{
+  "name": "skeleton-ts",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Lorenzo Delana",
+  "license": "MIT",
+  "dependencies": {
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {}
+}
