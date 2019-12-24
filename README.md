@@ -22,3 +22,9 @@ code .
         - in `package.json` set `"private":false`, `version`, `author` and `license`
         - replace `README.md` with your own
     - run `prepatch-and-publish` ( for bugfixes ) or `minor-and-publish` ( for new features )
+
+## testing
+
+- manually test `yarn test`
+- automatically test when code changes through jest vscode extension `code --install-extension orta.vscode-jest` ( see in the toolbar lower left )
+- show coverage gutters on source files `code --install-extension ryanluker.vscode-coverage-gutters` ( click on watch )

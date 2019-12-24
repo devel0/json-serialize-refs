@@ -1,6 +1,6 @@
 export function helloWorld1() {
-  console.log('hello')
+  return "hello";
 }
 export function helloWorld2() {
-  console.log('world')
+  return "world";
 }
