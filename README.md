@@ -71,7 +71,7 @@ code .
 - run unit tests with `yarn test`
 - [tests](src/test/stringify-refs.test.ts) verifies stringify and parse so that [test-data](src/example/test-data.ts) object:
     - stringified accomplish to newtonsoft json preserve reference format outputs for [Preserve All](src/test/test1-preserve-all.json) and [Preserve Objects](src/test/test1-preserve-objs.json)
-    - then parsed back satisfy [object comparision]()
+    - then parsed back satisfy [object comparision](https://github.com/devel0/skeleton-ts/blob/4201580290eff5f1b66167d1cb3f4dc494282385/src/example/test-data.ts#L16-L71)
 
 ## launchers
 
