@@ -12,6 +12,8 @@ yarn add json-serialize-refs
 
 ## usage
 
+prototypes:
+
 ```ts
 /** convert given obj to json resolving references as specified by preserveType */
 function stringifyRefs(obj: any, replacer: any = null, space: any = null, preserveType: PreserveType = PreserveType.All);
@@ -20,7 +22,7 @@ function stringifyRefs(obj: any, replacer: any = null, space: any = null, preser
 function parseRefs(text: string, reviver?: (this: any, key: string, value: any) => any);
 ```
 
-example follows:
+example:
 
 ```ts
 import { stringifyRefs, parseRefs, PreserveType } from "json-serialize-refs";
@@ -49,10 +51,53 @@ obj.arrdata2 = [obj.arrdata, "another"];
 const json = stringifyRefs(obj, null, 1, PreserveType.All);
 const obj2 = parseRefs(json);
 
+console.log(json);
+
 console.log("selftest eq: " + String(obj2.selftest === obj2));
 console.log("arrdata[0] eq: " + String(obj2.arrdata[0] === obj2));
 console.log("selfarray eq: " + String(obj2.selfarray === obj2.arrdata));
 console.log("arrdata2[0] eq: " + String(obj2.arrdata2[0] === obj2.arrdata));
+```
+
+output:
+
+```
+{
+ "$id": "1",
+ "aobj": {
+  "$id": "2",
+  "strVal": "some"
+ },
+ "selftest": {
+  "$ref": "1"
+ },
+ "value": "sample string",
+ "arrdata": {
+  "$id": "3",
+  "$values": [
+   {
+    "$ref": "1"
+   },
+   "other"
+  ]
+ },
+ "selfarray": {
+  "$ref": "3"
+ },
+ "arrdata2": {
+  "$id": "4",
+  "$values": [
+   {
+    "$ref": "3"
+   },
+   "another"
+  ]
+ }
+}
+selftest eq: true
+arrdata[0] eq: true
+selfarray eq: true
+arrdata2[0] eq: true
 ```
 
 ## how to contribute ( quickstart )
