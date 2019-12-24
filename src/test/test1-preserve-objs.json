@@ -1,0 +1,32 @@
+{
+ "$id": "1",
+ "aobj": {
+  "$id": "2",
+  "strVal": "some"
+ },
+ "selftest": {
+  "$ref": "1"
+ },
+ "value": "sample string",
+ "arrdata": [
+  {
+   "$ref": "1"
+  },
+  "other"
+ ],
+ "selfarray": [
+  {
+   "$ref": "1"
+  },
+  "other"
+ ],
+ "arrdata2": [
+  [
+   {
+    "$ref": "1"
+   },
+   "other"
+  ],
+  "another"
+ ]
+}

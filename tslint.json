@@ -4,6 +4,13 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "curly": false,
+        "max-line-length": false,
+        "no-trailing-whitespace": false,
+        "comment-format": false,
+        "one-line": false,
+        "no-empty": false,
+    },
     "rulesDirectory": []
 }

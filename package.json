@@ -1,7 +1,7 @@
 {
-  "name": "skeleton-ts",
+  "name": "json-serialize-refs",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Lorenzo Delana",
@@ -9,6 +9,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^24.0.24",
+    "@types/node": "^13.1.0",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
@@ -16,6 +17,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest --collect-coverage"    
+    "test": "jest --collect-coverage"
   }
 }
