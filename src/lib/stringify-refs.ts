@@ -79,6 +79,7 @@ export function createRefs(obj: any, preserveType: PreserveType = PreserveType.O
   return res;
 }
 
+/** convert given obj to json resolving references as specified by preserveType ( NewtonJson NET compatible ) */
 export function stringifyRefs(obj: any, replacer: any = null, space: any = null, preserveType: PreserveType = PreserveType.All) {
   return JSON.stringify(createRefs(obj, preserveType), replacer, space);
 }
@@ -137,6 +138,19 @@ export function replaceRefs(obj: any) {
   return obj;
 }
 
+/** convert back from json to object reconnecting references if any ( Newtonsoft JSON compatible ) */
 export function parseRefs(text: string, reviver?: (this: any, key: string, value: any) => any) {
   return replaceRefs(JSON.parse(text, reviver));
+}
+
+/** helper for fetch json text and parse */
+export function parseRefsResponse<T = any>(jsonPromise: Promise<string>): Promise<T> {
+  const promise = new Promise<T>((resolve, reject) => {
+      jsonPromise.then((json) => {
+          resolve(parseRefs(json) as T);
+      }).catch((reason) => {
+          reject(reason);
+      });
+  });
+  return promise;
 }
