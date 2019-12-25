@@ -80,7 +80,7 @@ export function createRefs(obj: any, preserveType: PreserveType = PreserveType.O
 }
 
 /** convert given obj to json resolving references as specified by preserveType ( NewtonJson NET compatible ) */
-export function stringifyRefs(obj: any, replacer: any = null, space: any = null, preserveType: PreserveType = PreserveType.All) {
+export function stringifyRefs(obj: any, replacer: any = null, space: any = null, preserveType: PreserveType = PreserveType.Objects) {
   return JSON.stringify(createRefs(obj, preserveType), replacer, space);
 }
 
