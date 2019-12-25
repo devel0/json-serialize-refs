@@ -10,7 +10,7 @@
         "no-trailing-whitespace": false,
         "comment-format": false,
         "one-line": false,
-        "no-empty": false,
+        "no-empty": false
     },
     "rulesDirectory": []
 }

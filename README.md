@@ -2,7 +2,7 @@
 
 [![NPM](https://img.shields.io/npm/v/json-serialize-refs.svg)](https://www.npmjs.com/package/json-serialize-refs) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-serialize and deserialize preserving refs ( resolving circular references automatically ) compatible with NewtonsoftJson for NET
+serialize and deserialize preserving refs ( resolving circular references automatically ) compatible with [Newtonsoft.Json for NET](https://www.newtonsoft.com/json/help/html/PreserveObjectReferences.htm)
 
 ## install
 
@@ -15,14 +15,17 @@ yarn add json-serialize-refs
 prototypes:
 
 ```ts
-/** convert given obj to json resolving references as specified by preserveType */
+/** convert given obj to json resolving references as specified by preserveType ( NewtonJson NET compatible ) */
 function stringifyRefs(obj: any, replacer: any = null, space: any = null, preserveType: PreserveType = PreserveType.All);
 
-/** convert back from json to object reconnecting references if any */
+/** convert back from json to object reconnecting references if any ( Newtonsoft JSON compatible ) */
 function parseRefs(text: string, reviver?: (this: any, key: string, value: any) => any);
+
+/** helper for fetch json text and parse */
+function parseRefsResponse<T = any>(jsonPromise: Promise<string>): Promise<T>;
 ```
 
-example:
+serialize/deserialize example:
 
 ```ts
 import { stringifyRefs, parseRefs, PreserveType } from "json-serialize-refs";
@@ -99,6 +102,37 @@ arrdata[0] eq: true
 selfarray eq: true
 arrdata2[0] eq: true
 ```
+
+parse webapi data:
+
+```ts
+fetch('sys/doSomething',
+    {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: stringifyRefs({ token, nfos })
+    })
+    .then(response => parseRefsResponse<IData>(response.text()))
+    .then(someData => {
+```
+
+with c# net core webapi service configured this way:
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    //...
+
+    services.AddMvc().AddNewtonsoftJson((o) =>
+    {
+        o.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.All;
+    });
+
+    //...
+}
+```
+
+tip: use [Reinforced.Typings](https://github.com/reinforced/Reinforced.Typings) tool to convert NET types to Typescript ( [example](https://github.com/devel0/example-netcore-to-typescript) )
 
 ## how to contribute ( quickstart )
 
