@@ -159,3 +159,7 @@ from vscode CTRL+SHIFT+D follows launchers available
 - "Launch Program" : start example program
 - "Debug Jest Tests" : run unit test with ability to breakpoint on them
 - "netcore ( preserve object )" and "netcore ( preserve all )" generate newtonsoft json format into netcore folder
+
+## troubleshoots
+
+from deserialization of All preserve type Newtonsoft generate follow error "Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.Int32[]" ( see [answer](https://stackoverflow.com/a/41307438/5521766) ) ; a workaround is to use `Objects` (already the default) preserve mode.
