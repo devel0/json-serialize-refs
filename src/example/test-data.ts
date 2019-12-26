@@ -5,12 +5,16 @@ interface test1_aobj_type {
 }
 
 interface test1_type {
-    aobj?: test1_aobj_type;
-    selftest?: test1_type;
-    value?: string;
-    arrdata?: (test1_type | string)[];
-    selfarray?: (test1_type | string)[];
-    arrdata2?: ((test1_type | string)[] | string)[];
+    dt: Date;
+    boolTrue: boolean;
+    boolFalse: boolean;
+    nr: number;
+    aobj: test1_aobj_type;
+    selftest: test1_type;
+    value: string;
+    arrdata: (test1_type | string)[];
+    selfarray: (test1_type | string)[];
+    arrdata2: ((test1_type | string)[] | string)[];
 }
 
 export const test1_compare = (
@@ -71,7 +75,11 @@ export const test1_compare = (
 };
 
 export const test1_make = () => {
-    const obj: test1_type = {};
+    const obj = {} as test1_type;
+    obj.dt = new Date("2019-12-31T23:59:59Z");
+    obj.boolTrue = true;
+    obj.boolFalse = false;
+    obj.nr = 3.14159;
     obj.aobj = { strVal: "some" };
     obj.selftest = obj;
     obj.value = "sample string";

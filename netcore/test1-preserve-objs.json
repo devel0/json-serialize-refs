@@ -1,5 +1,9 @@
 {
   "$id": "1",
+  "dt": "2019-12-31T23:59:59Z",
+  "boolTrue": true,
+  "boolFalse": false,
+  "nr": 3.14159,
   "aobj": {
     "$id": "2",
     "strVal": "some"
@@ -30,4 +34,3 @@
     "another"
   ]
 }
-

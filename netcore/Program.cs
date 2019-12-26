@@ -8,6 +8,10 @@ public class anotherObj
 
 public class testObj
 {
+    public DateTime dt { get; set; }
+    public bool boolTrue { get; set; } = true;
+    public bool boolFalse { get; set; } = false;
+    public double nr { get; set; } = 3.14159;
     public anotherObj aobj { get; set; } = new anotherObj();
     public testObj selftest { get; set; }
     public string value { get; set; } = "sample string";
@@ -17,6 +21,7 @@ public class testObj
 
     public testObj()
     {
+        dt = new DateTime(2019, 12, 31, 23, 59, 59, DateTimeKind.Utc);
         selftest = this;
         arrdata = new object[] { this, "other" };
         selfarray = arrdata;
@@ -41,6 +46,7 @@ namespace testar
                 PreserveReferencesHandling = preserveMode
             });
             System.Console.WriteLine(q);
+            System.IO.File.WriteAllText("test1-preserve-out.json", q);
         }
     }
 }
