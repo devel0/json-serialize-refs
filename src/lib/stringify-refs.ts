@@ -51,24 +51,30 @@ export function createRefs(obj: any, preserveType: PreserveType = PreserveType.O
         }
 
       } else { // OBJECT
-        map.set(val, id);
 
-        const mobj = { $id: id };
+        if (val instanceof Date) {
+          return val;
+        } else {
+          map.set(val, id);
 
-        for (const name in val) {
-          if (Object.prototype.hasOwnProperty.call(val, name)) {
-            const V = val[name];
-            const backRef = map.get(V);
-            if (backRef) {
-              mobj[name] = {
-                $ref: backRef,
-              };
-            } else {
-              mobj[name] = sweep(V);
+          const mobj = { $id: id };
+
+          for (const name in val) {
+            if (Object.prototype.hasOwnProperty.call(val, name)) {
+              const V = val[name];
+              const backRef = map.get(V);
+              if (backRef) {
+                mobj[name] = {
+                  $ref: backRef,
+                };
+              } else {
+                mobj[name] = sweep(V);
+              }
             }
           }
+
+          return mobj;
         }
-        return mobj;
       }
     }
     return val; // PRIMITIVE
@@ -86,6 +92,8 @@ export function stringifyRefs(obj: any, replacer: any = null, space: any = null,
 
 export function replaceRefs(obj: any) {
   const map = new Map<string, object>();
+
+  const jsonDateFormat = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
 
   function sweep(val: any) {
     const id = val.$id;
@@ -107,24 +115,30 @@ export function replaceRefs(obj: any) {
         }
       } else {
         for (const name in val) {
-          if (typeof val[name] === "object") {
-            const item = val[name];
-            if (item) {
-              const values = item.$values;
-              if (values !== undefined) {
-                const id = item.$id;
-                if (typeof id === "string" &&
-                  Object.prototype.toString.apply(values) === "[object Array]") {
-                  map.set(id, values);
-                  delete val.$values;
-                  val[name] = values;
-                  sweep(values);
+          if (name) {
+            const tOf = typeof val[name];
+            if (tOf === "string") {
+              const str: string = val[name];
+              if (jsonDateFormat.test(str)) val[name] = new Date(str);
+            } else if (tOf === "object") {
+              const item = val[name];
+              if (item) {
+                const values = item.$values;
+                if (values !== undefined) {
+                  const id = item.$id;
+                  if (typeof id === "string" &&
+                    Object.prototype.toString.apply(values) === "[object Array]") {
+                    map.set(id, values);
+                    delete val.$values;
+                    val[name] = values;
+                    sweep(values);
+                  }
+                } else {
+                  const ref = item.$ref;
+                  if (typeof ref === "string") {
+                    val[name] = map.get(ref);
+                  } else sweep(item);
                 }
-              } else {
-                const ref = item.$ref;
-                if (typeof ref === "string") {
-                  val[name] = map.get(ref);
-                } else sweep(item);
               }
             }
           }
@@ -146,11 +160,11 @@ export function parseRefs(text: string, reviver?: (this: any, key: string, value
 /** helper for fetch json text and parse */
 export function parseRefsResponse<T = any>(jsonPromise: Promise<string>): Promise<T> {
   const promise = new Promise<T>((resolve, reject) => {
-      jsonPromise.then((json) => {
-          resolve(parseRefs(json) as T);
-      }).catch((reason) => {
-          reject(reason);
-      });
+    jsonPromise.then((json) => {
+      resolve(parseRefs(json) as T);
+    }).catch((reason) => {
+      reject(reason);
+    });
   });
   return promise;
 }
